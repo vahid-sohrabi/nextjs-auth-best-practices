@@ -1,0 +1,31 @@
+{
+  "name": "nextjs-auth-best-practices",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@hookform/resolvers": "^5.0.1",
+    "@mui/icons-material": "^7.0.2",
+    "@mui/material": "^7.0.2",
+    "next": "15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.0",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.3",
+    "@types/node": "22.14.1",
+    "@types/react": "19.1.2",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.3",
+    "typescript": "5.8.3"
+  }
+}
