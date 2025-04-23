@@ -1,5 +1,7 @@
 import "../../globals.css";
-import {ReactNode} from "react";
+import React, {ReactNode} from "react";
+import {SessionProvider} from "next-auth/react";
+import {auth} from "@/lib/auth";
 
 export const metadata = {
     title: "Create Next App",
@@ -10,11 +12,14 @@ interface RootLayoutProps {
     children: ReactNode;
 }
 
-export default function RootLayout({children}: RootLayoutProps) {
+export default async function RootLayout({children}: RootLayoutProps) {
+    const session = await auth()
     return (
         <html lang="en">
             <body>
+            <SessionProvider session={session}>
                 {children}
+            </SessionProvider>
             </body>
         </html>
     );

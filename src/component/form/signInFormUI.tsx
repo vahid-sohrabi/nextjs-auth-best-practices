@@ -1,13 +1,5 @@
-import React from 'react';
-import {
-    Button,
-    TextField,
-    Typography,
-    Stack,
-    Link,
-    IconButton,
-    InputAdornment,
-} from '@mui/material';
+import React, { useState } from 'react';
+import { Button, TextField, Typography, Stack, Link, IconButton, InputAdornment, Alert } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconActionButton } from '../index';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -22,8 +14,10 @@ interface Props {
     errors: any;
     showPassword: boolean;
     togglePasswordVisibility: () => void;
-    handleMouseDownPassword: (event: React.MouseEvent<HTMLButtonElement>) => void; // Add this line
+    handleMouseDownPassword: (event: React.MouseEvent<HTMLButtonElement>) => void;
     router: any;
+    authError: string | null;
+    handleOAuthSignIn: (provider: string) => void;
 }
 
 const SignInFormUI: React.FC<Props> = ({
@@ -32,8 +26,10 @@ const SignInFormUI: React.FC<Props> = ({
                                            errors,
                                            showPassword,
                                            togglePasswordVisibility,
-                                           handleMouseDownPassword,  // Destructure this prop
+                                           handleMouseDownPassword,
                                            router,
+                                           authError,
+                                           handleOAuthSignIn
                                        }) => {
     return (
         <form onSubmit={onSubmit} noValidate>
@@ -41,10 +37,12 @@ const SignInFormUI: React.FC<Props> = ({
                 variant="h5"
                 component="h1"
                 gutterBottom
-                sx={{ fontWeight: 'bold', textAlign: 'center', mb: 5 }}
+                sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}
             >
                 Login to Your Account
             </Typography>
+
+            {authError && <Alert severity="error" sx={{ mb: 3, mt: 1 }}>{authError}</Alert>}
 
             <Stack spacing={3}>
                 <TextField
@@ -66,8 +64,8 @@ const SignInFormUI: React.FC<Props> = ({
                         endAdornment: (
                             <InputAdornment position="end">
                                 <IconButton
-                                    onClick={togglePasswordVisibility}  // Use togglePasswordVisibility here
-                                    onMouseDown={handleMouseDownPassword}  // Use handleMouseDownPassword here
+                                    onClick={togglePasswordVisibility}
+                                    onMouseDown={handleMouseDownPassword}
                                 >
                                     {showPassword ? <Visibility /> : <VisibilityOff />}
                                 </IconButton>
@@ -81,22 +79,28 @@ const SignInFormUI: React.FC<Props> = ({
                 </Button>
 
                 <Stack direction="row" spacing={2} justifyContent="center" sx={{ mb: 2 }}>
-                    <IconActionButton Icon={GoogleIcon} onClick={() => {}} label="Google sign-in" />
-                    <IconActionButton Icon={GitHubIcon} onClick={() => {}} label="GitHub sign-in" />
-                    <IconActionButton Icon={FacebookIcon} onClick={() => {}} label="Facebook sign-in" />
-                    <IconActionButton Icon={TwitterIcon} onClick={() => {}} label="Twitter sign-in" />
-                    <IconActionButton Icon={LinkedInIcon} onClick={() => {}} label="LinkedIn sign-in" />
+                    <IconActionButton Icon={GoogleIcon} onClick={() => handleOAuthSignIn("google")} label="Google sign-in" />
+                    <IconActionButton Icon={GitHubIcon} onClick={() => { }} label="GitHub sign-in" />
+                    <IconActionButton Icon={FacebookIcon} onClick={() => { }} label="Facebook sign-in" />
+                    <IconActionButton Icon={TwitterIcon} onClick={() => { }} label="Twitter sign-in" />
+                    <IconActionButton Icon={LinkedInIcon} onClick={() => { }} label="LinkedIn sign-in" />
                 </Stack>
 
                 <Typography variant="body2" textAlign="center">
                     Don’t have an account?{' '}
-                    <Link href="#" onClick={(e) => { e.preventDefault(); router.push('/auth/sign-up'); }}>
+                    <Link href="#" onClick={(e) => {
+                        e.preventDefault();
+                        router.push('/auth/sign-up');
+                    }}>
                         Sign up
                     </Link>
                 </Typography>
 
                 <Typography variant="body2" textAlign="center">
-                    <Link href="#" onClick={(e) => { e.preventDefault(); router.push('/auth/forgot-password'); }}>
+                    <Link href="#" onClick={(e) => {
+                        e.preventDefault();
+                        router.push('/auth/forgot-password');
+                    }}>
                         Forgot password?
                     </Link>
                 </Typography>
